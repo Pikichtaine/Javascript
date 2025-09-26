@@ -5,7 +5,6 @@ let b=2
 let c=a+b
 console.log(c + " points")
 
-
 // function
 // je veux voir mon Nom et mon age
 function youtube(name, age){
@@ -48,4 +47,5 @@ switch(jour){
 // compteur du 0 jusqu'a 10
 for (let i=0; i<11; i++){
     console.log("Number " + i)
+
 }
