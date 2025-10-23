@@ -1,15 +1,47 @@
+
+
 // (Search)
 const buton=document.getElementById("delete");
 const spawn=document.getElementById("button");
 const container=document.getElementById("container");
 const input=document.getElementById("input");
+let listContent=document.querySelector("ul");
+let contenedor=document.getElementById("contenedor2");
+let divText=document.getElementById("emptyMsg");
 // (/Search)
+
+
+// (Refresh)
+window.onload = function() {
+    if(listContent.querySelector("li")){
+        contenedor.querySelector("div").remove();
+    }
+}
+// (/Refresh)
+
 
 
 // (Load Lists)
 let savedata=JSON.parse(localStorage.getItem("taxes")) || [];
-savedata.forEach(texte => spawnList(texte));
+savedata.forEach(texteSauvegarder => spawnList(texteSauvegarder)); 
 // (/Load Lists)
+
+
+
+// (div Opaccity)
+function deleteEmptyMsg(){
+    if(listContent.querySelector("li")){
+        contenedor.querySelector("div").remove();
+    }else{
+      let div=document.createElement("div")
+        div.id="emptyMsg"
+        div.classList.add("empty");
+        div.innerText="Il n'y a aucune tâche. Ajoutez-en une ci-dessus."
+        contenedor.appendChild(div);
+    }
+}
+// (/div Opaccity)
+
 
 
 // (Spawn function)
@@ -23,22 +55,26 @@ console.log("activado");
     localStorage.setItem("taxes", JSON.stringify(savedata));
     // (Reset input)
 input.value=""
+    // (/Reset input)
+
 }
 };
 // (/Spawn function)
 
 
+
 // (Spawn Savedata or input text)
-function spawnList(texte){
+function spawnList(texteSauvegarder){
+
+
 // (checkbox)
 const checkbox=document.createElement("input");
-checkbox.classList.add("checkbox");
 checkbox.type="checkbox";
 // (/checkbox)
 
 
 // (Texte Liste)
-const textInput=document.createTextNode(texte)
+const textInput=document.createTextNode(texteSauvegarder)
 // (/Texte Liste)
 
 
@@ -56,9 +92,11 @@ deleting.addEventListener("click", function() {
     liste.remove();
     
     // (Filter)
-    savedata = savedata.filter(t => t !== texte);
+    savedata = savedata.filter(t => t !== texteSauvegarder);
     localStorage.setItem("taxes", JSON.stringify(savedata));
     // (/Filter)
+
+    deleteEmptyMsg()
 
   });
 // (/Delete Button)
@@ -76,11 +114,14 @@ container.appendChild(liste);
 
 
 }
-// (Spawn Savedata or input text)
+// (/Spawn Savedata or input text)
 
 
 // (Spawn Button)
-spawn.addEventListener("click",spawni);
+spawn.addEventListener("click",function(){
+    spawni();
+    deleteEmptyMsg();
+});
 // (/Spawn Button)
 
 
@@ -88,9 +129,9 @@ spawn.addEventListener("click",spawni);
 input.addEventListener("keydown", function(event) {
     if(event.key === "Enter") {
         spawni();
+        deleteEmptyMsg();
     }
 });
 // (/Spawn with Enter)
-
 
 
